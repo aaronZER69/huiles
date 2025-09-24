@@ -106,48 +106,28 @@
             </h1>
             
             <p class="text-lg text-gray-600 mb-8">
-                Merci pour votre commande. Votre numéro de confirmation est <span class="font-semibold text-or">#213HL-2024</span>.
+                Merci pour votre commande. Votre numéro de confirmation est <span id="orderNumber" class="font-semibold text-or">#213HL-2024</span>.
             </p>
             
             <div class="bg-gray-50 rounded-lg p-6 mb-8 text-left">
                 <h2 class="text-xl font-playfair font-semibold text-vert-the mb-4">Récapitulatif de la commande</h2>
                 
-                <div class="space-y-4 mb-6">
-                    <div class="flex justify-between items-center border-b pb-3">
-                        <div class="flex items-center space-x-3">
-                            <img src="https://picsum.photos/60/60?random=2" alt="Extra Vierge Bio" class="w-12 h-12 object-cover rounded">
-                            <div>
-                                <p class="font-semibold">Extra Vierge Bio</p>
-                                <p class="text-sm text-gray-500">Quantité: 1</p>
-                            </div>
-                        </div>
-                        <span class="font-semibold">24,90€</span>
-                    </div>
-                    
-                    <div class="flex justify-between items-center border-b pb-3">
-                        <div class="flex items-center space-x-3">
-                            <img src="https://picsum.photos/60/60?random=3" alt="Aux Herbes de Provence" class="w-12 h-12 object-cover rounded">
-                            <div>
-                                <p class="font-semibold">Aux Herbes de Provence</p>
-                                <p class="text-sm text-gray-500">Quantité: 2</p>
-                            </div>
-                        </div>
-                        <span class="font-semibold">53,00€</span>
-                    </div>
+                <div id="orderItems" class="space-y-4 mb-6">
+                    <!-- Les produits seront insérés ici dynamiquement -->
                 </div>
                 
                 <div class="space-y-2 border-t pt-4">
                     <div class="flex justify-between">
                         <span>Sous-total</span>
-                        <span>77,90€</span>
+                        <span id="subtotal">0,00€</span>
                     </div>
                     <div class="flex justify-between">
                         <span>Livraison</span>
-                        <span>4,90€</span>
+                        <span id="shipping">4,90€</span>
                     </div>
                     <div class="flex justify-between text-lg font-semibold mt-2">
                         <span>Total</span>
-                        <span class="text-or">82,80€</span>
+                        <span id="total" class="text-or">0,00€</span>
                     </div>
                 </div>
             </div>
@@ -157,17 +137,17 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <p class="font-semibold">Adresse de livraison</p>
-                        <p class="text-gray-600">Jean Dupont<br>12 Rue de l'Olive<br>75001 Paris<br>France</p>
+                        <p id="shippingAddress" class="text-gray-600">Chargement...</p>
                     </div>
                     <div>
                         <p class="font-semibold">Mode de livraison</p>
-                        <p class="text-gray-600">Livraison standard<br>Délai estimé: 3-5 jours ouvrables</p>
+                        <p id="shippingMethod" class="text-gray-600">Chargement...</p>
                     </div>
                 </div>
             </div>
             
             <p class="text-gray-600 mb-8">
-                Un email de confirmation a été envoyé à <span class="font-semibold">jean.dupont@email.com</span> avec tous les détails de votre commande.
+                Un email de confirmation a été envoyé à <span id="customerEmail" class="font-semibold">chargement...</span> avec tous les détails de votre commande.
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -211,6 +191,88 @@
     </footer>
 
     <script>
+        // Fonction pour formater le prix
+        function formatPrice(price) {
+            return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(price);
+        }
+
+        // Fonction pour générer un numéro de commande unique
+        function generateOrderNumber() {
+            const timestamp = new Date().getTime().toString().slice(-6);
+            return `#213HL-${timestamp}`;
+        }
+
+        // Fonction pour afficher les produits de la commande
+        function displayOrderItems() {
+            const orderItemsContainer = document.getElementById('orderItems');
+            const subtotalElement = document.getElementById('subtotal');
+            const totalElement = document.getElementById('total');
+            const shippingElement = document.getElementById('shipping');
+            const shippingAddressElement = document.getElementById('shippingAddress');
+            const shippingMethodElement = document.getElementById('shippingMethod');
+            const customerEmailElement = document.getElementById('customerEmail');
+            const orderNumberElement = document.getElementById('orderNumber');
+
+            // Récupérer les données du localStorage
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const shippingCost = parseFloat(localStorage.getItem('shippingCost')) || 4.90;
+            const customerInfo = JSON.parse(localStorage.getItem('customerInfo')) || {};
+            const shippingInfo = JSON.parse(localStorage.getItem('shippingInfo')) || {};
+
+            // Générer et afficher le numéro de commande
+            const orderNumber = generateOrderNumber();
+            orderNumberElement.textContent = orderNumber;
+
+            // Vider le conteneur des articles
+            orderItemsContainer.innerHTML = '';
+
+            let subtotal = 0;
+
+            // Afficher chaque produit
+            cartItems.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+
+                const itemElement = document.createElement('div');
+                itemElement.className = 'flex justify-between items-center border-b pb-3';
+                itemElement.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded">
+                        <div>
+                            <p class="font-semibold">${item.name}</p>
+                            <p class="text-sm text-gray-500">Quantité: ${item.quantity}</p>
+                        </div>
+                    </div>
+                    <span class="font-semibold">${formatPrice(itemTotal)}</span>
+                `;
+                orderItemsContainer.appendChild(itemElement);
+            });
+
+            // Calculer le total
+            const total = subtotal + shippingCost;
+
+            // Afficher les totaux
+            subtotalElement.textContent = formatPrice(subtotal);
+            shippingElement.textContent = formatPrice(shippingCost);
+            totalElement.textContent = formatPrice(total);
+
+            // Afficher les informations de livraison
+            if (shippingInfo.address) {
+                shippingAddressElement.innerHTML = `
+                    ${customerInfo.firstName || ''} ${customerInfo.lastName || ''}<br>
+                    ${shippingInfo.address}<br>
+                    ${shippingInfo.postalCode || ''} ${shippingInfo.city || ''}<br>
+                    ${shippingInfo.country || 'France'}
+                `;
+            }
+
+            shippingMethodElement.textContent = shippingInfo.method || 'Livraison standard\nDélai estimé: 3-5 jours ouvrables';
+            customerEmailElement.textContent = customerInfo.email || 'jean.dupont@email.com';
+
+            // Vider le panier après confirmation (optionnel)
+            localStorage.removeItem('cartItems');
+        }
+
         // Create confetti effect
         function createConfetti() {
             const colors = ['#214D1B', '#D4AF37', '#F5F5DC', '#8B4513', '#CD853F'];
@@ -231,8 +293,11 @@
             }
         }
         
-        // Run confetti animation when page loads
-        document.addEventListener('DOMContentLoaded', createConfetti);
+        // Run when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            displayOrderItems();
+            createConfetti();
+        });
     </script>
 </body>
 </html>
