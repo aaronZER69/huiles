@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Récapitulatif de Commande - 213Huiles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'vert-the': '#214D1B',
+                        'or': '#D4AF37',
+                        'creme': '#F5F5DC'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                        'opensans': ['Open Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .form-input:focus {
+            border-color: #214D1B;
+            box-shadow: 0 0 0 3px rgba(33, 77, 27, 0.1);
+        }
+    </style>
+</head>
+<body class="font-opensans text-gray-800 bg-creme min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-10">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <span class="text-2xl font-playfair font-bold text-vert-the">213Huiles</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-700 hover:text-vert-the transition-colors">
+                        <i class="fas fa-home text-xl"></i>
+                    </a>
+                    <div class="relative">
+                        <a href="panier.html" class="text-gray-700 hover:text-vert-the transition-colors">
+                            <i class="fas fa-shopping-cart text-xl"></i>
+                            <span class="absolute -top-2 -right-2 bg-or text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl md:text-4xl font-playfair font-bold text-vert-the mb-8 text-center">
+            Récapitulatif de votre commande
+        </h1>
+        
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Section produits et total -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <h2 class="text-xl font-playfair font-semibold text-vert-the mb-4 border-b pb-2">Vos articles</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center border-b pb-4">
+                            <div class="flex items-center space-x-4">
+                                <img src="https://picsum.photos/80/80?random=2" alt="Extra Vierge Bio" class="w-16 h-16 object-cover rounded">
+                                <div>
+                                    <p class="font-semibold">Huile d'Olive Extra Vierge Bio</p>
+                                    <p class="text-sm text-gray-500">Bouteille de 50cl</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center border rounded-md">
+                                    <button class="px-2 py-1 text-gray-600">-</button>
+                                    <span class="px-3 py-1">1</span>
+                                    <button class="px-2 py-1 text-gray-600">+</button>
+                                </div>
+                                <span class="font-semibold w-20 text-right">24,90€</span>
+                                <button class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center border-b pb-4">
+                            <div class="flex items-center space-x-4">
+                                <img src="https://picsum.photos/80/80?random=3" alt="Aux Herbes de Provence" class="w-16 h-16 object-cover rounded">
+                                <div>
+                                    <p class="font-semibold">Huile d'Olive aux Herbes de Provence</p>
+                                    <p class="text-sm text-gray-500">Bouteille de 50cl</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center border rounded-md">
+                                    <button class="px-2 py-1 text-gray-600">-</button>
+                                    <span class="px-3 py-1">2</span>
+                                    <button class="px-2 py-1 text-gray-600">+</button>
+                                </div>
+                                <span class="font-semibold w-20 text-right">53,00€</span>
+                                <button class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-4 border-t">
+                        <div class="flex justify-between mb-2">
+                            <span>Sous-total</span>
+                            <span>77,90€</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span>Frais de livraison</span>
+                            <span>4,90€</span>
+                        </div>
+                        <div class="flex justify-between font-semibold text-lg mt-3 pt-3 border-t">
+                            <span>Total</span>
+                            <span class="text-or">82,80€</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-playfair font-semibold text-vert-the mb-4 border-b pb-2">Méthode de livraison</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 border rounded-lg bg-gray-50">
+                            <div class="flex items-center space-x-4">
+                                <input type="radio" name="delivery" id="delivery-standard" checked class="text-vert-the focus:ring-vert-the">
+                                <label for="delivery-standard" class="font-semibold">Livraison standard</label>
+                            </div>
+                            <span>4,90€</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 border rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <input type="radio" name="delivery" id="delivery-express" class="text-vert-the focus:ring-vert-the">
+                                <label for="delivery-express" class="font-semibold">Livraison express</label>
+                            </div>
+                            <span>9,90€</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section informations client -->
+            <div class="lg:w-1/3">
+                <div class="bg-white rounded-lg shadow-lg p-6 sticky top-24">
+                    <h2 class="text-xl font-playfair font-semibold text-vert-the mb-4 border-b pb-2">Informations personnelles</h2>
+                    
+                    <form class="space-y-4">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 border rounded-md form-input focus:outline-none focus:ring-1" placeholder="votre@email.com" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="firstname" class="block text-sm font-medium text-gray-700 mb-1">Prénom *</label>
+                                <input type="text" id="firstname" class="w-full px-4 py-2 border rounded-md form-input focus:outline-none focus:ring-1" placeholder="Prénom" required>
+                            </div>
+                            <div>
+                                <label for="lastname" class="block text-sm font-medium text-gray-700 mb-1">Nom *</label>
+                                <input type="text" id="lastname" class="w-full px-4 py-2 border rounded-md form-input focus:outline-none focus:ring-1" placeholder="Nom" required>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Adresse *</label>
+                            <input type="text" id="address" class="w-full px-4 py-2 border rounded-md form-input focus:outline-none focus:ring-1" placeholder="Votre adresse" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="postalcode" class="block text-sm font-medium text-gray-700 mb-1">Code postal *</label>
+                                <input type="text" id="postalcode" class="w-full px-4 py-2 border rounded-md form-input focus:outline-none focus:ring-1" placeholder="Code postal" required>
+                            </div>
+                            <div>
+                                <label for="city" class="block text-sm font-medium text-gray-700 mb-1">Ville *</label>
+                                <input type="text" id="city" class="w-full px-4 py-2 border rounded-md form-input focus:outline-none focus:ring-1" placeholder="Ville" required>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border rounded-md form-input focus:outline-none focus:ring-1" placeholder="Votre téléphone">
+                        </div>
+                    </form>
+                    
+                    <div class="mt-6 pt-4 border-t">
+                        <button class="w-full bg-vert-the hover:bg-green-800 text-white py-3 rounded-md font-semibold transition-colors flex items-center justify-center">
+                            <i class="fas fa-lock mr-2"></i>
+                            Payer maintenant
+                        </button>
+                        
+                        <p class="text-xs text-gray-500 mt-4 text-center">
+                            En passant commande, vous acceptez nos 
+                            <a href="#" class="text-vert-the hover:underline">conditions générales de vente</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-playfair font-semibold mb-4">213Huiles</h3>
+                    <p class="text-gray-400">L'excellence de l'huile d'olive artisanale depuis 2013.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Service Client</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-or transition-colors">Contactez-nous</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-or transition-colors">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-or transition-colors">Livraison & Retours</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Informations</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-or transition-colors">Conditions générales</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-or transition-colors">Politique de confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 213Huiles. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Gestion des quantités
+        document.querySelectorAll('.flex.items-center.border.rounded-md button').forEach(button => {
+            button.addEventListener('click', function() {
+                const container = this.parentElement;
+                const quantitySpan = container.querySelector('span');
+                let quantity = parseInt(quantitySpan.textContent);
+                
+                if (this.textContent === '+') {
+                    quantity++;
+                } else if (this.textContent === '-' && quantity > 1) {
+                    quantity--;
+                }
+                
+                quantitySpan.textContent = quantity;
+                
+                // Ici, vous pourriez mettre à jour le prix total
+                // Pour cet exemple, nous laissons le prix total fixe
+            });
+        });
+        
+        // Gestion de la suppression d'articles
+        document.querySelectorAll('.fa-trash').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const item = this.closest('.flex.justify-between.items-center');
+                item.style.opacity = '0';
+                setTimeout(() => {
+                    item.remove();
+                    // Ici, vous pourriez recalculer le total
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
