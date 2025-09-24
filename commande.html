@@ -66,67 +66,25 @@
             <div class="lg:w-2/3">
                 <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
                     <h2 class="text-xl font-playfair font-semibold text-vert-the mb-4 border-b pb-2">Vos articles</h2>
+                    <div id="order-items" class="space-y-6"></div>
                     
-                    <div class="space-y-6">
-                        <div class="flex justify-between items-center border-b pb-4">
-                            <div class="flex items-center space-x-4">
-                                <img src="https://picsum.photos/80/80?random=2" alt="Extra Vierge Bio" class="w-16 h-16 object-cover rounded">
-                                <div>
-                                    <p class="font-semibold">Huile d'Olive Extra Vierge Bio</p>
-                                    <p class="text-sm text-gray-500">Bouteille de 50cl</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <div class="flex items-center border rounded-md">
-                                    <button class="px-2 py-1 text-gray-600">-</button>
-                                    <span class="px-3 py-1">1</span>
-                                    <button class="px-2 py-1 text-gray-600">+</button>
-                                </div>
-                                <span class="font-semibold w-20 text-right">24,90€</span>
-                                <button class="text-red-500 hover:text-red-700">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="flex justify-between items-center border-b pb-4">
-                            <div class="flex items-center space-x-4">
-                                <img src="https://picsum.photos/80/80?random=3" alt="Aux Herbes de Provence" class="w-16 h-16 object-cover rounded">
-                                <div>
-                                    <p class="font-semibold">Huile d'Olive aux Herbes de Provence</p>
-                                    <p class="text-sm text-gray-500">Bouteille de 50cl</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <div class="flex items-center border rounded-md">
-                                    <button class="px-2 py-1 text-gray-600">-</button>
-                                    <span class="px-3 py-1">2</span>
-                                    <button class="px-2 py-1 text-gray-600">+</button>
-                                </div>
-                                <span class="font-semibold w-20 text-right">53,00€</span>
-                                <button class="text-red-500 hover:text-red-700">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                     
-                    <div class="mt-6 pt-4 border-t">
-                        <div class="flex justify-between mb-2">
-                            <span>Sous-total</span>
-                            <span>77,90€</span>
-                        </div>
-                        <div class="flex justify-between mb-2">
-                            <span>Frais de livraison</span>
-                            <span>4,90€</span>
-                        </div>
-                        <div class="flex justify-between font-semibold text-lg mt-3 pt-3 border-t">
-                            <span>Total</span>
-                            <span class="text-or">82,80€</span>
-                        </div>
-                    </div>
-                </div>
-                
+           
+    <div class="mt-6 pt-4 border-t">
+        <div class="flex justify-between mb-2">
+            <span>Sous-total</span>
+            <span id="subtotal">0,00€</span>
+        </div>
+        <div class="flex justify-between mb-2">
+            <span>Frais de livraison</span>
+            <span id="delivery">4,90€</span>
+        </div>
+        <div class="flex justify-between font-semibold text-lg mt-3 pt-3 border-t">
+            <span>Total</span>
+            <span class="text-or" id="total">0,00€</span>
+        </div>
+    </div>
+</div>
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h2 class="text-xl font-playfair font-semibold text-vert-the mb-4 border-b pb-2">Méthode de livraison</h2>
                     
@@ -139,13 +97,6 @@
                             <span>4,90€</span>
                         </div>
                         
-                        <div class="flex items-center justify-between p-4 border rounded-lg">
-                            <div class="flex items-center space-x-4">
-                                <input type="radio" name="delivery" id="delivery-express" class="text-vert-the focus:ring-vert-the">
-                                <label for="delivery-express" class="font-semibold">Livraison express</label>
-                            </div>
-                            <span>9,90€</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -195,10 +146,10 @@
                     </form>
                     
                     <div class="mt-6 pt-4 border-t">
-                        <button class="w-full bg-vert-the hover:bg-green-800 text-white py-3 rounded-md font-semibold transition-colors flex items-center justify-center">
+                        <a href="merci.html "class="w-full bg-vert-the hover:bg-green-800 text-white py-3 rounded-md font-semibold transition-colors flex items-center justify-center">
                             <i class="fas fa-lock mr-2"></i>
                             Payer maintenant
-                        </button>
+                        </a>
                         
                         <p class="text-xs text-gray-500 mt-4 text-center">
                             En passant commande, vous acceptez nos 
@@ -272,5 +223,46 @@
             });
         });
     </script>
+    <script>
+function renderCart() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let container = document.getElementById('order-items');
+    let subtotal = 0;
+
+    container.innerHTML = "";
+
+    if (cart.length === 0) {
+        container.innerHTML = "<p class='text-gray-500'>Votre panier est vide</p>";
+    } else {
+        cart.forEach(item => {
+            let itemTotal = item.price * item.quantity;
+            subtotal += itemTotal;
+
+            container.innerHTML += `
+                <div class="flex justify-between items-center border-b pb-4">
+                    <div class="flex items-center space-x-4">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+                        <div>
+                            <p class="font-semibold">${item.name}</p>
+                            <p class="text-sm text-gray-500">Bouteille de 50cl</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="font-semibold w-20 text-right">${itemTotal.toFixed(2)}€</span>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    document.getElementById('subtotal').textContent = subtotal.toFixed(2) + "€";
+    let delivery = 4.90;
+    document.getElementById('delivery').textContent = delivery.toFixed(2) + "€";
+    document.getElementById('total').textContent = (subtotal + delivery).toFixed(2) + "€";
+}
+
+window.onload = renderCart;
+</script>
+
 </body>
 </html>
